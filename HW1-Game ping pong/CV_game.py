@@ -2,6 +2,7 @@
 
 import cv2
 import numpy as np
+import requests
 
 # Параметры игры
 width = 640  # ширина окна
@@ -30,8 +31,9 @@ window_name = 'Ping-Pong'
 cv2.namedWindow(window_name)
 
 # Загрузка изображения стола для тенниса
-filepath_table_tennis = '/Users/aleksandrbogdanov/Desktop/Comp vision Shokurov/TennisTeble.jpg'
-table_tennis = cv2.imread(filepath_table_tennis)
+url_table_tennis = 'https://github.com/aleksandrbogdanovmsu/comp_vision_classes/blob/main/HW1-Game%20ping%20pong/TennisTeble.jpg?raw=true'
+response = requests.get(url_table_tennis)
+table_tennis = cv2.imdecode(np.frombuffer(response.content, np.uint8), cv2.IMREAD_COLOR)
 
 # Обрезка изображения стола
 x1, x2 = 85, 920  # Координаты по ширине
@@ -45,8 +47,9 @@ table_tennis = cv2.resize(table_tennis, (width, height))
 # РАКЕТКИ
 
 # Загрузка изображения ракетки
-filepath_racket = '/Users/aleksandrbogdanov/Desktop/Comp vision Shokurov/racket.jpg'
-racket_img = cv2.imread(filepath_racket)
+url_racket = 'https://github.com/aleksandrbogdanovmsu/comp_vision_classes/blob/main/HW1-Game%20ping%20pong/racket.jpg?raw=true'
+response = requests.get(url_racket)
+racket_img = cv2.imdecode(np.frombuffer(response.content, np.uint8), cv2.IMREAD_UNCHANGED)
 
 # Убираем фон - достаем ракетку
 
@@ -115,7 +118,9 @@ def remove_background_with_alpha(image):
     return result
 
 # Загрузка изображения мячика
-ball_img = cv2.imread('/Users/aleksandrbogdanov/Desktop/Comp vision Shokurov/ball.jpg')
+url_ball = 'https://github.com/aleksandrbogdanovmsu/comp_vision_classes/blob/main/HW1-Game%20ping%20pong/ball.jpg?raw=true'
+response = requests.get(url_ball)
+ball_img = cv2.imdecode(np.frombuffer(response.content, np.uint8), cv2.IMREAD_UNCHANGED)
 
 # Удаляем фон мячика и добавляем альфа-канал
 ball_no_bg = remove_background_with_alpha(ball_img)
